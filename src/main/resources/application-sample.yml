@@ -1,0 +1,29 @@
+# The number of Secret
+maxSantasPerPerson: 2
+
+email:
+  fromAddress: from@e.mail
+  ccAddress: cc@e.mail
+  subject: Secret Santa
+
+smtp:
+  host: smtp-relay.sendinblue.com
+  port: 587
+  username: test
+  password: test
+
+people:
+  - name: Santa 1
+    email: test1@e.mail
+    exclusions:
+      - Santa 2
+  - name: Santa 2
+    email: test2@e.mail
+    exclusions:
+      - Santa 1
+  - name: Santa 3
+    email: test3@e.mail
+  - name: Santa 4
+    email: test4@e.mail
+  - name: Santa 5
+    email: test5@e.mail
