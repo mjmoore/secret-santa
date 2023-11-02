@@ -42,6 +42,7 @@ private fun generateSantas(people: Set<Person>): Set<Santa> = people
         val selected = candidates
             .take(config.maxSantasPerPerson)
             .onEach(Person::incrementSantaCount)
+            .onEach(Person::addSanta(santa))
         Santa(santa, selected)
     }
     .toSet()
