@@ -25,9 +25,16 @@ class Emailer private constructor(
 
     constructor(config: Config) : this(config.smtp)
 
-    fun sendEmails(santas: Set<Santa>): Unit = santas
-        .map(::generateEmail)
-        .forEach { email -> email.sendSync(mailer) }
+    fun sendEmails(santas: Set<Santa>) {
+        try {
+            santas
+                .map(::generateEmail)
+                .forEach { email -> email.sendSync(mailer) }
+        } finally {
+            // The SMTP connection pool runs on non-daemon threads; without this the JVM never exits.
+            mailer.shutdownConnectionPool().get()
+        }
+    }
 
 
     private fun generateEmail(santa: Santa): Email = emailBuilder {
@@ -42,7 +49,7 @@ class Emailer private constructor(
             It's Christmas time!
                     
             You've been selected to be secret santa for: 
-            ${santa.receivers.formattedList()}
+            ${santa.receivers.formattedList(santa.person)}
 
             Enjoy bringing these people a smile on Christmas day.
 

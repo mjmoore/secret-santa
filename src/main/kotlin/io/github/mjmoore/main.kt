@@ -15,10 +15,10 @@ fun main() {
 
     while (true) {
 
-        val people = personGenerator()
+        val people = personGenerator().onEach(Person::reset)
 
         val santas = generateSantas(people)
-        val isValid = santas.map(Santa::isValid).reduce(Boolean::and)
+        val isValid = santas.all(Santa::isValid)
 
         if (isValid) {
             emailer.sendEmails(santas)
@@ -41,8 +41,7 @@ private fun generateSantas(people: Set<Person>): Set<Santa> = people
             .shuffled()
         val selected = candidates
             .take(config.maxSantasPerPerson)
-            .onEach(Person::incrementSantaCount)
-            .onEach(Person::addSanta(santa))
+            .onEach { it.addSanta(santa) }
         Santa(santa, selected)
     }
     .toSet()

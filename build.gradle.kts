@@ -1,8 +1,6 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    id("java")
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") version "2.0.21"
+    application
 }
 
 group = "io.github.mjmoore"
@@ -24,9 +22,13 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jackson")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "16"
+kotlin {
+    jvmToolchain(21)
+    compilerOptions {
+        freeCompilerArgs.add("-Xjsr305=strict")
     }
+}
+
+application {
+    mainClass.set("io.github.mjmoore.MainKt")
 }
