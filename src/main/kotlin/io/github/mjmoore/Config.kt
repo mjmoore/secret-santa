@@ -17,7 +17,9 @@ data class Config(
     data class EmailConfig(
         val fromAddress: String?,
         val ccAddress: String?,
-        val subject: String
+        val subject: String,
+        /** If set, a copy of every email is saved here as <name>_<date>.msg before sending. */
+        val backupDirectory: String? = null
     )
 
     data class SmtpConfig(
